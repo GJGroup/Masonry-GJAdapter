@@ -26,9 +26,7 @@
     Class _UILayoutGuideClass = NSClassFromString(@"_UILayoutGuide");
     
     //filter _UILayoutGuide
-    if ([constraint.firstItem isKindOfClass:_UILayoutGuideClass]
-//        || [constraint.secondItem isKindOfClass:_UILayoutGuideClass]
-        ) {
+    if ([constraint.firstItem isKindOfClass:_UILayoutGuideClass]) {
         dontAdapter = YES;
     }
     
@@ -43,7 +41,6 @@
     }
     
     if ([constraint isMemberOfClass:[NSLayoutConstraint class]]) {
-//        object_setClass(constraint, [GJLayoutConstraint class]);
         NSLayoutConstraint *newConstraint
         = [MASLayoutConstraint constraintWithItem:constraint.firstItem
                                         attribute:constraint.firstAttribute
@@ -57,9 +54,6 @@
                                                                   layoutAttribute:newConstraint.firstAttribute];
         MASViewConstraint *masConstraint = [[MASViewConstraint alloc] initWithFirstViewAttribute:firstAttribute];
         if (newConstraint.secondItem && newConstraint.secondAttribute) {
-//            if ([newConstraint.secondItem isKindOfClass:_UILayoutGuideClass]) {
-//                MASViewAttribute *secondAttribute = [MASViewAttribute alloc] initWithView:<#(UIView *)#> item:<#(id)#> layoutAttribute:<#(NSLayoutAttribute)#>
-//            }
             MASViewAttribute *secondAttribute = [[MASViewAttribute alloc] initWithView:newConstraint.secondItem
                                                                        layoutAttribute:newConstraint.secondAttribute];
             [masConstraint setValue:secondAttribute forKey:@"_secondViewAttribute"];
@@ -71,7 +65,6 @@
         MAS_VIEW *firstItemView = newConstraint.firstItem;
         NSMutableSet *installedConstraints = [firstItemView valueForKey:@"mas_installedConstraints"];
         [installedConstraints addObject:masConstraint];
-        NSLog(@"%@",newConstraint);
 
         [self gjAdapter_addConstraint:newConstraint];
         return;
