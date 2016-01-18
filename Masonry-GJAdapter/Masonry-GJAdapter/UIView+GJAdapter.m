@@ -49,6 +49,8 @@
                                         attribute:constraint.secondAttribute
                                        multiplier:constraint.multiplier
                                          constant:constraint.constant];
+        
+        newConstraint.priority = constraint.priority;
 
         MASViewAttribute *firstAttribute = [[MASViewAttribute alloc] initWithView:newConstraint.firstItem
                                                                   layoutAttribute:newConstraint.firstAttribute];
