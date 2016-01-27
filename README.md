@@ -15,5 +15,33 @@ A adapter between 'Masonry' and 'layout of Interface Builder'.
 
 ## 注意
 
-<img src="httpshttps://github.com/GJGroup/Masonry-GJAdapter/blob/master/ScreenShot/ss1.png" width="512">
 
+像Masonry添加约束一样，当你有一个基于2个view之间的约束，在Masonry中的代码会是：
+
+``` objc
+        [self.view2 mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.view1.mas_bottom).offset(100);
+        }];
+```
+
+这段代码表明，你会添加一个view2的top到view1的bottom距离的约束，但是当你remake或者update的时候你必须这样写：
+
+``` objc
+        [self.view2 mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.view1.mas_bottom).offset(200);
+        }];
+```
+
+也就是说，你必须用view2来执行remake或update方法才可以，如果反过来则不行：
+
+``` objc
+        [self.view1 mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.view2.mas_top).offset(200);
+        }];
+```
+
+这样的话，之前的约束并没有删除，remake后会添加一条新的约束，导致冲突。
+
+
+那么我们如何来确定IB中调用remake和update的那个view呢？其实，就是下图中的First Item中的view，图里显示view2是first itme，那么我们要用Masonry编辑这个约束的时候，就需要用view2来调用remake或update方法才会生效。
+<img src="https://github.com/GJGroup/Masonry-GJAdapter/blob/master/ScreenShot/ss1.png" width="512">
